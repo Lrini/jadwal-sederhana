@@ -1,37 +1,3 @@
-<?php 
-session_start();
-include("../koneksi.php");
- if(!isset($_SESSION['nip'])){
-    ?>
-    <script type="text/javascript">
-      alert('login dulu');window.location='login.php';
-    </script>
-    <?php
-  }else{
-    ?>
-<?php 
-include '../koneksi.php';
-if(isset($_POST['simpan'])){
-
-   $tema =$_POST['tema'];
-   $khotbah =$_POST ['khotbah'];
-   $tanggal=$_POST['tanggal'];
-	
-    $sql = mysqli_query($koneksi,"INSERT INTO muslim(tema,khotbah,tanggal)values 
-		('$tema','$khotbah','$tanggal')");
-    if($sql){
-        ?>
-        <script type="text/javascript">
-            alert("sukses");window.location='input_muslim.php';
-        </script>
-        <?php
-    }
-
-}
-
-
-
- ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,11 +5,13 @@ if(isset($_POST['simpan'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
- 
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+
     <title>Admin</title>
+
  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <link rel="stylesheet" type="text/css" href="ckeditor/contents.css">
+
     <!-- Bootstrap CSS -->    
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
@@ -67,8 +35,6 @@ if(isset($_POST['simpan'])){
     <link href="css/style-responsive.css" rel="stylesheet" />
     <link href="css/xcharts.min.css" rel=" stylesheet"> 
     <link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
-    <!--datatables-->
-    <link rel="stylesheet" type="text/css" href="jquery.dataTables.min.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -88,7 +54,7 @@ if(isset($_POST['simpan'])){
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">LP3I College <span class="lite">Kupang</span></a>
+            <a href="index.html" class="logo">LP3I College<span class="lite">Kupang</span></a>
             <!--logo end-->
 
 
@@ -99,20 +65,21 @@ if(isset($_POST['simpan'])){
                     
                    
                     <li class="dropdown">
-                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
                                 <img alt="" src="">
                             </span>
                             <span class="username">
                                 <?php 
                                         include '../koneksi.php';
+                                        session_start ();
                                         echo $_SESSION['nip'];
 
                                  ?>
                             </span>
                             <b class="caret"></b>
                         </a>
-                     <ul class="dropdown-menu extended logout">
+                   <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
                             <li class="eborder-top">
                                 <a href="admin.php"><i class="icon_profile"></i> My Profile</a>
@@ -155,83 +122,85 @@ if(isset($_POST['simpan'])){
 
 <div class="tab-content">
 <div class="tab-pane active" id="biodata">
+<?php 
+    include '../koneksi.php';
+    $id=$_GET['id'];
+    $data = mysqli_query($koneksi,"SELECT * FROM kristen where id ='$id'");
+    $edit = mysqli_fetch_array($data);
+ ?>
     <table class="table table-bordered">
-        <tr class="success"><th colspan="2">INPUT Jadwal Muslim</th></tr>
-      <tr>
-          <td>Tema Ibadah</td>
+        <tr class="success"><th colspan="2">Edit Jadwal Kristen</th></tr>
+         <tr>
+          <td width="150">ID</td>
           <td>
-              <div class="col-md-4">
-              <input type='text' name='tema' placeholder='Tema Ibadah' class='form-control' >
-              </div>
-            </td>
-        </tr>
-		 <tr>
-          <td>Khotbah</td>
+            <div class='col-sm-4'>
+              <input type='text' name='id' value="<?php echo $edit['id'] ?>"  class='form-control' required='required' disabled='disabled' >
+              <input type="hidden" name="id" value="<?php echo $edit['id'] ?>">
+            </div>             
+
+        <tr>
+        <tr>
+          <td width="150">Tema Ibadah</td>
           <td>
-              <div class="col-md-4">
-              <input type='text' name='khotbah' placeholder='Khotbah' class='form-control'   >
-              </div>
-            </td>
+            <div class='col-sm-4'>
+              <input type='text' name='tema' value="<?php echo $edit['tema'] ?>"  class='form-control' required='required' >
+            </div>             
         </tr>
         <tr>
-          <td>Tanggal Ibadah</td>
+          <td width="150">Khotbah</td>
           <td>
-              <div class="col-md-4">
-              <input type='text' name='tanggal' placeholder='Tanggal Ibadah' class='form-control' >
-              </div>
-            </td>
+            <div class='col-sm-4'>
+              <input type='text' name='khotbah' value="<?php echo $edit['khotbah'] ?>"  class='form-control' required='required' >
+            </div>             
+        </tr>
+        <tr>
+          <td width="150">Tanggal Ibadah</td>
+          <td>
+            <div class='col-sm-4'>
+              <input type='text' name='tanggal' value="<?php echo $edit['tanggal'] ?>"  class='form-control' required='required' >
+            </div>             
         </tr>
     </table>
     
 </div>
-<input type="submit" name="simpan" value="SIMPAN" class="btn btn-success">
-<input type="reset"  value="RESET" class="btn btn-danger  btn-sm">
-            <a href="#" class="btn btn-primary">KEMBALI</a></form>
+<input type="submit" name="edit" value="EDIT" class="btn btn-success">
+<!--<input type="reset"  value="RESET" class="btn btn-danger  btn-sm">-->
+            <a href="input_muslim.php" class="btn btn-danger">KEMBALI</a></form>
 
            </form>
+
+<?php 
+include '../koneksi.php';    
+if(isset($_POST['edit'])){
+
+    $id        = $_POST['id'];
+    $tema            = $_POST['tema'];
+    $khotbah = $_POST['khotbah'];
+	$tanggal = $_POST['tanggal'];
+
+    $sql = mysqli_query($koneksi,"UPDATE kristen set tema='$tema',khotbah='$khotbah',tanggal ='$tanggal'where id='$id'
+            ");
+
+    if($sql){
+        ?>
+        <script type="text/javascript">
+            alert("sukses");window.location='input_kristen.php';
+        </script>
+        <?php
+    }
+
+}
+
+
+
+ ?>
+
+
               </div>
                         
           </div> 
-      <div class="card-body">
-          <table id="dataTables" class="table table-bordered table-striped" >
-                              <thead>
-                                  <tr>
-                                      <th>NO.</th>
-                                      <th>Tema</th>
-                                      <th>Khotbah</th>
-                                      <th>Jadwal Ibadah</th>
-                                      <th>Pilihan</th>
-                                  </tr>
-                              </thead>
-                          
-                          <tbody>
-                            <?php
-                            $conn = new mysqli("localhost", "root", "", "jadwal");
-                            if ($conn->connect_errno) {
-                              echo "Failed to connect to MySQL: " . $conn->connect_error;
-                            }
-                            
-                            $no = 1;
-                            $res = $conn->query("select * from muslim");
-                            while($row = $res->fetch_assoc()){
-                              echo '
-                              <tr>
-                                <td>'.$no.'</td>
-                                <td>'.$row['tema'].'</td>
-                                <td>'.$row['khotbah'].'</td>
-                                <td>'.$row['tanggal'].'</td>
-                                <td>
-                                 <a href ="tambahmuslim.php?id='.$row['id'].'"><i class="btn btn-block btn-primary btn-sm">edit</i></a>
-                                 <a href ="hapus_muslim.php?id='.$row['id'].'"><i class="btn btn-block btn-danger btn-sm">hapus</i></a>
-                                </td>
-                              </tr>
-                              ';
-                              $no++;
-                            }
-                            ?>
-                          </tbody>
-                        </table>
-                    <div>
+              <!-- project team & activity end -->
+
           </section>
       </section>
       <!--main content end-->
@@ -279,13 +248,6 @@ if(isset($_POST['simpan'])){
     <script src="js/sparklines.js"></script>    
     <script src="js/charts.js"></script>
     <script src="js/jquery.slimscroll.min.js"></script>
-    <script src="jquery-1.12.0.min.js"></script>
-	<script src="jquery.dataTables.min.js"></script>
-    <script>
-	  $(document).ready(function() {
-		$('#dataTables').DataTable();
-	} );
-	</script>
   <script>
 
       //knob
@@ -331,9 +293,10 @@ if(isset($_POST['simpan'])){
         }
       });
     });
+
+
+
   </script>
+
   </body>
 </html>
- <?php
-  }
- ?>

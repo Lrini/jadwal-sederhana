@@ -221,8 +221,8 @@ if(isset($_POST['simpan'])){
                                 <td>'.$row['khotbah'].'</td>
                                 <td>'.$row['tanggal'].'</td>
                                 <td>
-                                 <a href ="tambahsiswa.php?nim='.$row['id'].'"><i class="btn btn-block btn-primary btn-sm">edit</i></a>
-                                 <a href ="hapussiswa.php?nim='.$row['id'].'"><i class="btn btn-block btn-danger btn-sm">hapus</i></a>
+                                 <a href ="tambahkristen.php?id='.$row['id'].'"><i class="btn btn-block btn-primary btn-sm">edit</i></a>
+                                 <a href ="hapuskristen.php?id='.$row['id'].'"><i class="btn btn-block btn-danger btn-sm">hapus</i></a>
                                 </td>
                               </tr>
                               ';

@@ -23,12 +23,12 @@
                           <span>Admin</span>
                       </a>
                   </li>
-                     <li>
+                   <!--  <li>
                       <a class="" href="user/index1.php">
                           <i class="icon_piechart"></i>
                           <span>View Website</span>
                       </a>
-                  </li>
+                  </li>-->
               </ul>
               <div style="color:white">
                 &copy; Restika Lazula
